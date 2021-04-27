@@ -10,7 +10,7 @@ const LoginScreen = ({navigation}) => {
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Button
           title="Log in"
-          onPress={() => navigation.navigate('HomePageScreen')}
+          onPress={() => navigation.navigate('BottomTab')}
         />
       </View>
     </View>
