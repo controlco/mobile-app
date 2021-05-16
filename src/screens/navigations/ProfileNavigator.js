@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import CalendarScreen from '../screens/Calendar/CalendarScreen';
+import ProfileScreen from '../screens/Profile/ProfileScreen';
 import SettingsScreen from '../screens/Settings/SettingsScreen';
 
 const ProfileStack = createStackNavigator();
@@ -8,8 +8,8 @@ const ProfileStack = createStackNavigator();
 const ProfileStackScreens = () => (
   <ProfileStack.Navigator initialRouteName="MessageMenuScreen">
     <ProfileStack.Screen
-      name="CalendarScreen"
-      component={CalendarScreen}
+      name="ProfileScreen"
+      component={ProfileScreen}
       options={{headerShown: false}}
     />
 

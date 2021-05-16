@@ -2,14 +2,14 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MessageStackScreens from './MessagesNavigator';
-import HomePageScreen from '../screens/HomePage/HomePageScreen';
+import HomeStackScreen from './HomeNavigator';
 import ProfileStackScreens from './ProfileNavigator';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => (
   <Tab.Navigator
-    initialRouteName="HomePageScreen"
+    initialRouteName="HomeStackScreen"
     activeColor="red"
     inactiveColor="blue"
     labeled={false}>
@@ -26,8 +26,8 @@ const BottomTab = () => (
     />
 
     <Tab.Screen
-      name="HomePageScreen"
-      component={HomePageScreen}
+      name="HomeStackScreen"
+      component={HomeStackScreen}
       options={{
         title: 'Home Page',
         tabBarIcon: ({color}) => (
@@ -40,9 +40,9 @@ const BottomTab = () => (
       name="ProfileStackScreens"
       component={ProfileStackScreens}
       options={{
-        title: 'Calendar',
+        title: 'Profile',
         tabBarIcon: ({color}) => (
-          <Icon name="calendar-outline" color={color} size={26} />
+          <Icon name="person-circle-outline" color={color} size={26} />
         ),
       }}
     />
