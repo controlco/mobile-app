@@ -26,37 +26,6 @@ const TerrainScreen = ({route, navigation}) => {
   };
 
   const [visible, setVisible] = useState(false);
-  // return (
-  //   <View>
-  //     <View style={{alignItems: 'center', flexDirection: 'column', justifyContent: 'space-around'}}>
-  //       <View style={{flex: 1}}>
-  //         <Text style={{fontSize: RFPercentage(5)}}>{terrainInfo.title}</Text>
-  //       </View>
-  //       <View style={{flex: 1, backgroundColor: 'black'}}>
-  //       {/* <TouchableHighlight onPress={() => setVisible(true)}> */}
-
-  //       {/* </TouchableHighlight> */}
-  //       </View>
-  //     </View>
-  //     <View style={{flex: 2}}>
-  //       <Button
-  //         title="Message"
-  //         onPress={() =>
-  //           navigation.navigate('MessageStackScreens', {
-  //             screen: 'MessageScreen',
-  //             params: {name: 'Nombre', from: 'terrain', id},
-  //           })
-  //         }
-  //       />
-  //     </View>
-  //     <ImageView
-  //       images={terrainInfo.images.map(im => ({uri: im}))}
-  //       imageIndex={0}
-  //       visible={visible}
-  //       onRequestClose={() => setVisible(false)}
-  //     />
-  //   </View>
-  // );
 
   return (
     <View style={{flex: 1}}>
