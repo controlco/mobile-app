@@ -1,20 +1,29 @@
-import {combineReducers} from 'redux';
-
 const initialState = {
   isLoggedIn: false,
   userEmail: null,
-  userName: null,
-  userLastname: null,
   userToken: null,
 };
 
 const userReducer = (prevState = initialState, action) => {
   switch (action.type) {
+    case 'USER_LOGIN':
+      return {
+        ...prevState,
+        userToken: action.payload.token,
+        userEmail: action.payload.email,
+        isLoggedIn: true,
+      };
+    case 'USER_SIGNUP':
+      console.log('Entré al signup');
+      return {
+        ...prevState,
+        userToken: action.payload.token,
+        userEmail: action.payload.email,
+        isLoggedIn: true,
+      };
     default:
       return prevState;
   }
 };
 
-export default combineReducers({
-  user: userReducer,
-});
+export default userReducer;
