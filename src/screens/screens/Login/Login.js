@@ -2,12 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import {View, Text, Alert, StyleSheet, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
+import {login} from '../../../../redux/actions';
+import {store} from '../../../../redux/store';
 
 const LoginScreen = ({navigation}) => {
   const [userData, setuserData] = React.useState({
     email: '',
     password: '',
-    token: '',
   });
 
   const onLogin = () => {
@@ -17,16 +18,13 @@ const LoginScreen = ({navigation}) => {
     } else if (userData.password.length === 0) {
       Alert.alert('Error', 'Ingresa la contraseña');
     } else {
-      navigation.navigate('HomePageScreen');
-      console.log('Acá:', userData);
       axios
-        .post('http://10.0.2.2:8000/login/', {
-          email: 'user@uc.cl',
-          password: '123',
+        .post('http://10.0.2.2:8000/login', {
+          email: userData.email,
+          password: userData.password,
         })
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
-          saveUser(response);
+          store.dispatch(login(userData, response.data.token));
         })
         .catch(function (error) {
           console.log(error.message);
