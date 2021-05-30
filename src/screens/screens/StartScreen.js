@@ -5,11 +5,16 @@ import MainStackScreen from '../navigations/MainNavigator';
 import {Provider} from 'react-redux';
 import {store} from '../../../redux/store';
 
+import BottomTab from '../navigations/BottomTab';
+import LogInStackScreens from '../navigations/LogInNavigator';
+
 const StartScreen = () => {
+  let loggedIn = false;
+
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <MainStackScreen />
+        <BottomTab />
       </NavigationContainer>
     </Provider>
   );
