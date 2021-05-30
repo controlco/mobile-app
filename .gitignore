@@ -68,3 +68,5 @@ buck-out/
 
 /android/.gradle/
 /android/app/build/
+
+.vscode
