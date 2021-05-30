@@ -25,6 +25,7 @@ const LoginScreen = ({navigation}) => {
         })
         .then(function (response) {
           store.dispatch(login(userData, response.data.token));
+          navigation.navigate('HomePageScreen');
         })
         .catch(function (error) {
           console.log(error.message);
