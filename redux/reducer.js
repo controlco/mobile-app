@@ -14,7 +14,6 @@ const userReducer = (prevState = initialState, action) => {
         isLoggedIn: true,
       };
     case 'USER_SIGNUP':
-      console.log('Entré al signup');
       return {
         ...prevState,
         userToken: action.payload.token,
