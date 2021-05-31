@@ -1,20 +1,103 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import axios from 'axios';
+import {View, Text, Alert, StyleSheet, TouchableOpacity} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
+import {login} from '../../../../redux/actions';
+import {store} from '../../../../redux/store';
 
 const LoginScreen = ({navigation}) => {
+  const [userData, setuserData] = React.useState({
+    email: '',
+    password: '',
+  });
+
+  const onLogin = () => {
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (userData.email.length === 0) {
+      Alert.alert('Error', 'Ingresa tu correo electrónico');
+    } else if (userData.password.length === 0) {
+      Alert.alert('Error', 'Ingresa la contraseña');
+    } else {
+      axios
+        .post('http://10.0.2.2:8000/login', {
+          email: userData.email,
+          password: userData.password,
+        })
+        .then(function (response) {
+          store.dispatch(login(userData, response.data.token));
+          navigation.navigate('HomePageScreen');
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+    }
+  };
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Login Screen</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.textHeader}>CtrlCo</Text>
       </View>
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Button
-          title="Log in"
-          onPress={() => navigation.navigate('BottomTab')}
-        />
-      </View>
+      <Text>Correo Electrónico</Text>
+      <TextInput
+        style={styles.textInput}
+        onChangeText={text => setuserData({...userData, email: text})}
+        value={userData.email}
+        placeholder={'Correo'}
+      />
+      <Text>Contraseña</Text>
+      <TextInput
+        style={styles.textInput}
+        onChangeText={text => setuserData({...userData, password: text})}
+        value={userData.password}
+        placeholder={'Contraseña'}
+        secureTextEntry={true}
+      />
+      <TouchableOpacity style={styles.loginBtn} onPress={() => onLogin()}>
+        <Text style={styles.loginText}>INGRESAR</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+        <Text style={styles.loginText}>Registrarse</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textHeader: {
+    fontWeight: 'bold',
+    fontSize: 40,
+    color: '#000000',
+    marginBottom: 40,
+  },
+  textInput: {
+    justifyContent: 'center',
+    width: '80%',
+    borderRadius: 25,
+    borderWidth: 0.5,
+    height: 40,
+    margin: 12,
+    padding: 10,
+  },
+  loginBtn: {
+    width: '50%',
+    borderRadius: 5,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+    marginBottom: 10,
+  },
+});
