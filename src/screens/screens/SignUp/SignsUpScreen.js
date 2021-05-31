@@ -20,12 +20,13 @@ const SignUpScreen = ({navigation}) => {
     first_name: '',
     last_name: '',
     rut: '',
-    //birth_date: null,
+    birth_date: '',
   });
   const onSignUp = () => {
     console.log(userData);
     const regex_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const regex_rut = /\b(\d{1,3}(\d{1,3}){2}-[\dkK])\b/;
+    const regex_date = /^\s*((?:19|20)\d{2})\-(1[012]|0?[1-9])\-(3[01]|[12][0-9]|0?[1-9])\s*$/;
     if (userData.first_name.length === 0) {
       Alert.alert('Error', 'Ingresa un nombre válido');
     } else if (userData.last_name.length === 0) {
@@ -45,20 +46,22 @@ const SignUpScreen = ({navigation}) => {
       userData.rut.length > 10
     ) {
       Alert.alert('Error', 'Ingresa un RUT válido');
+    } else if (!regex_date.test(userData.birth_date)) {
+      Alert.alert('Error', 'Ingresa una fecha válida');
     } else {
       axios
-        .post('http://10.0.2.2:8000/signup', {
+        .post('http://desarrollosoftware.tk/signup', {
           email: userData.email,
           password: userData.password,
           first_name: userData.first_name,
           last_name: userData.last_name,
           rut: userData.rut,
           is_owner: false,
-          //birth_date: userData.birth_date,
+          birth_date: userData.birth_date + ' 06:00:00',
         })
         .then(function () {
           axios
-            .post('http://10.0.2.2:8000/login', {
+            .post('http://desarrollosoftware.tk/login', {
               email: userData.email,
               password: userData.password,
             })
@@ -109,16 +112,15 @@ const SignUpScreen = ({navigation}) => {
             placeholder={'Correo Electrónico'}
           />
         </View>
-        {/*
         <Text styles={styles.label}>Cumpleaños</Text>
         <View style={styles.action}>
           <TextInput
             style={styles.textInput}
-            onChangeText={text => setUserData({...userData, birth_day: text})}
+            onChangeText={text => setUserData({...userData, birth_date: text})}
             value={userData.birth_date}
-            placeholder={'dd/mm/aaaa'}
+            placeholder={'aaaa-mm-dd'}
           />
-        </View> */}
+        </View>
         <Text styles={styles.label}>Rut</Text>
         <View style={styles.action}>
           <TextInput
