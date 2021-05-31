@@ -5,9 +5,17 @@ import {Card} from 'react-native-elements';
 import ImageView from 'react-native-image-viewing';
 
 const TerrainCard = params => {
+  const backendImages = 'http://desarrollosoftware.tk';
+  const terrain = params.terrain;
+  console.log(terrain);
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
-  const images = params.images.map(im => ({uri: im}));
+  const images = terrain.property_images.map(im => ({
+    uri: backendImages + im.cover,
+  }));
+  const firstImage = terrain.property_images.length
+    ? backendImages + terrain.property_images[0].cover
+    : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAY4UUVKjiP3MjXyNxAW3FC5CddlG2YLFP31nvwQsN8_aww6DmWTHzdoZd2rvBE_3YlOY&usqp=CAU';
   return (
     <Card>
       <View style={{flexDirection: 'row', flex: 1}}>
@@ -15,20 +23,21 @@ const TerrainCard = params => {
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('TerrainScreen', {
-                id: params.id,
+                id: terrain.id,
+                terrain,
               });
             }}>
-            <Text>{params.title}</Text>
-            <Text>{params.surface} Hectareas</Text>
-            <Text>{params.address}</Text>
-            <Text>${params.price}</Text>
-            <Text>{params.owner}</Text>
+            <Text>{terrain.title}</Text>
+            <Text>{terrain.surface} Hectareas</Text>
+            <Text>{terrain.address}</Text>
+            <Text>${terrain.price}</Text>
+            <Text>{terrain.owner}</Text>
           </TouchableOpacity>
         </View>
         <View style={{flex: 1}}>
           <TouchableOpacity onPress={() => setVisible(true)}>
             <Image
-              source={{uri: params.images[0]}}
+              source={{uri: firstImage}}
               style={{width: '100%', height: '100%'}}
             />
           </TouchableOpacity>

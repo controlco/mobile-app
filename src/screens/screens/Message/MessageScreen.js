@@ -4,7 +4,7 @@ import {TextInput, StyleSheet, View} from 'react-native';
 const MessageScreen = () => {
   const [search, setSearch] = useState('');
 
-  const messages
+  // const messages
 
   return (
     <View style={{flex: 1, alignItems: 'center'}}>

@@ -12,7 +12,8 @@ const LoginScreen = ({navigation}) => {
   });
 
   const onLogin = () => {
-    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regex =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (userData.email.length === 0) {
       Alert.alert('Error', 'Ingresa tu correo electrónico');
     } else if (userData.password.length === 0) {
@@ -25,7 +26,7 @@ const LoginScreen = ({navigation}) => {
         })
         .then(function (response) {
           store.dispatch(login(userData, response.data.token));
-          navigation.navigate('HomePageScreen');
+          navigation.navigate('BottomTab');
         })
         .catch(function (error) {
           console.log(error.message);
