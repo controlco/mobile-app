@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-import {signup} from '../../../../redux/actions';
+import {login} from '../../../../redux/actions';
 import {store} from '../../../../redux/store';
 
 const SignUpScreen = ({navigation}) => {
@@ -56,8 +56,19 @@ const SignUpScreen = ({navigation}) => {
           is_owner: false,
           //birth_date: userData.birth_date,
         })
-        .then(function (response) {
-          store.dispatch(signup(userData));
+        .then(function () {
+          axios
+            .post('http://10.0.2.2:8000/login', {
+              email: userData.email,
+              password: userData.password,
+            })
+            .then(function (response) {
+              store.dispatch(login(userData, response.data.token));
+              navigation.navigate('HomePageScreen');
+            })
+            .catch(function (error) {
+              console.log(error.message);
+            });
           navigation.navigate('HomePageScreen');
         })
         .catch(function (error) {
