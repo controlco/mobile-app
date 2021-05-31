@@ -9,81 +9,98 @@ import {
   ScrollView,
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
+import {login} from '../../../../redux/actions';
+import {store} from '../../../../redux/store';
 
 const SignUpScreen = ({navigation}) => {
   const [userData, setUserData] = React.useState({
     email: '',
     password: '',
     confirmPassword: '',
-    name: '',
-    lastname: '',
+    first_name: '',
+    last_name: '',
+    rut: '',
+    //birth_date: null,
   });
-  const fetchF = () => {
-    console.log('Acá');
-    fetch('http://10.0.2.2:8000/login/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: {},
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
-  };
   const onSignUp = () => {
-    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (userData.name.length === 0) {
+    console.log(userData);
+    const regex_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regex_rut = /\b(\d{1,3}(\d{1,3}){2}-[\dkK])\b/;
+    if (userData.first_name.length === 0) {
       Alert.alert('Error', 'Ingresa un nombre válido');
-    } else if (userData.lastname.length === 0) {
+    } else if (userData.last_name.length === 0) {
       Alert.alert('Error', 'Ingresa un apellido válido');
-    } else if (!regex.test(userData.email) || userData.email.length === 0) {
+    } else if (
+      !regex_email.test(userData.email) ||
+      userData.email.length === 0
+    ) {
       Alert.alert('Error', 'Ingresa un correo válido');
     } else if (userData.password.length <= 8) {
       Alert.alert('Error', 'La contraseña debe contener mínimo 8 caracteres');
+    } else if (userData.password.length !== userData.confirmPassword.length) {
+      Alert.alert('Error', 'Las contraseña no coinciden');
+    } else if (
+      !regex_rut.test(userData.rut) ||
+      userData.rut.length < 9 ||
+      userData.rut.length > 10
+    ) {
+      Alert.alert('Error', 'Ingresa un RUT válido');
     } else {
       axios
-        .post('http://10.0.2.2:8000/login/', {
-          email: 'maconcha4',
-          password: 'maconcha4',
-          userId: 1,
+        .post('http://10.0.2.2:8000/signup', {
+          email: userData.email,
+          password: userData.password,
+          first_name: userData.first_name,
+          last_name: userData.last_name,
+          rut: userData.rut,
+          is_owner: false,
+          //birth_date: userData.birth_date,
         })
-        .then(function (response) {
-          // handle success
-          alert(JSON.stringify(response.data));
+        .then(function () {
+          axios
+            .post('http://10.0.2.2:8000/login', {
+              email: userData.email,
+              password: userData.password,
+            })
+            .then(function (response) {
+              store.dispatch(login(userData, response.data.token));
+              navigation.navigate('HomePageScreen');
+            })
+            .catch(function (error) {
+              console.log(error.message);
+            });
+          navigation.navigate('HomePageScreen');
         })
         .catch(function (error) {
-          // handle error
-          alert(error.message);
+          console.log('Error: ', error.message);
         });
     }
   };
   return (
     <View style={styles.container}>
-      {fetchF()}
       <View style={styles.header}>
         <Text style={styles.textHeader}>CtrlCo</Text>
       </View>
-      <ScrollView>
-        <Text styles={styles.label}>Nombre</Text>
+      <ScrollView style={styles.scrollView}>
+        <Text styles={styles.label}>Nombre*</Text>
         <View style={styles.action}>
           <TextInput
             style={styles.textInput}
-            onChangeText={text => setUserData({...userData, name: text})}
-            value={userData.name}
+            onChangeText={text => setUserData({...userData, first_name: text})}
+            value={userData.first_name}
             placeholder={'Nombre'}
           />
         </View>
-        <Text styles={styles.label}>Apellido</Text>
+        <Text styles={styles.label}>Apellido*</Text>
         <View style={styles.action}>
           <TextInput
             style={styles.textInput}
-            onChangeText={text => setUserData({...userData, lastname: text})}
-            value={userData.lastname}
+            onChangeText={text => setUserData({...userData, last_name: text})}
+            value={userData.last_name}
             placeholder={'Apellido'}
           />
         </View>
-        <Text styles={styles.label}>Correo Electrónico</Text>
+        <Text styles={styles.label}>Correo Electrónico*</Text>
         <View style={styles.action}>
           <TextInput
             style={styles.textInput}
@@ -92,7 +109,26 @@ const SignUpScreen = ({navigation}) => {
             placeholder={'Correo Electrónico'}
           />
         </View>
-        <Text styles={styles.label}>Contraseña</Text>
+        {/*
+        <Text styles={styles.label}>Cumpleaños</Text>
+        <View style={styles.action}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => setUserData({...userData, birth_day: text})}
+            value={userData.birth_date}
+            placeholder={'dd/mm/aaaa'}
+          />
+        </View> */}
+        <Text styles={styles.label}>Rut</Text>
+        <View style={styles.action}>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={text => setUserData({...userData, rut: text})}
+            value={userData.rut}
+            placeholder={'12345678-9'}
+          />
+        </View>
+        <Text styles={styles.label}>Contraseña*</Text>
         <View style={styles.action}>
           <TextInput
             style={styles.textInput}
@@ -102,7 +138,7 @@ const SignUpScreen = ({navigation}) => {
             secureTextEntry={true}
           />
         </View>
-        <Text styles={styles.label}>Confirmar Contraseña</Text>
+        <Text styles={styles.label}>Confirmar Contraseña*</Text>
         <View style={styles.action}>
           <TextInput
             style={styles.textInput}
@@ -115,12 +151,15 @@ const SignUpScreen = ({navigation}) => {
           />
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.loginBtn} onPress={() => onSignUp()}>
-        <Text style={styles.loginText}>REGISTRARSE</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('LogInScreen')}>
-        <Text style={styles.loginText}>Ingresar</Text>
-      </TouchableOpacity>
+
+      <View style={styles.actions}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => onSignUp()}>
+          <Text style={styles.loginText}>REGISTRARSE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('LogInScreen')}>
+          <Text style={styles.loginText}>Ingresar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -133,8 +172,10 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
+  scrollView: {
+    width: '90%',
+  },
   header: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -150,6 +191,9 @@ const styles = StyleSheet.create({
     margin: 12,
     width: 150,
     padding: 10,
+  },
+  actions: {
+    alignItems: 'center',
   },
   loginBtn: {
     width: '50%',
