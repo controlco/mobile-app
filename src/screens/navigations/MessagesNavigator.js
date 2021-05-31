@@ -22,12 +22,7 @@ const MessageStackScreens = () => (
           <HeaderBackButton
             {...prop}
             onPress={() => {
-              route.params.from === 'terrain'
-                ? navigation.navigate('HomeStackScreen', {
-                    screen: 'TerrainScreen',
-                    params: {id: route.params.id},
-                  })
-                : navigation.navigate('MessageMenuScreen');
+              navigation.push('MessageMenuScreen');
             }}
           />
         ),
