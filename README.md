@@ -39,3 +39,6 @@
 * R09 :hourglass_flowing_sand:
   - Sprint 5
   - Estilo
+
+## Instalación
+El codigo se encuentra en la rama master. Para ejecutarlo, se debe instalar node e instalar correctamente react-native. luego ejecutar npm i para instalar las dependencias (en caso de haber algun error con los peers, se debe ejecutar npm i --legacy-peer-deps en su lugar). Finalmente se debe correr npm run android
