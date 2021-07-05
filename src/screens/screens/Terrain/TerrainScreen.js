@@ -6,42 +6,36 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {showLocation} from 'react-native-map-link';
 import {DotIndicator} from 'react-native-indicators';
 import axios from 'axios';
+import {store} from '../../../../redux/store';
+import jwt_decode from 'jwt-decode';
 
 const TerrainScreen = ({route, navigation}) => {
   const {id, terrain} = route.params;
-  console.log(route.params);
-  const backendImages = 'http://desarrollosoftware.tk';
+  const state = store.getState();
+  const userData = jwt_decode(state.userToken);
+  const backendImages = 'https://desarrollosoftware.tk';
   const firstImage = terrain.property_images.length
     ? backendImages + terrain.property_images[0].cover
     : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAY4UUVKjiP3MjXyNxAW3FC5CddlG2YLFP31nvwQsN8_aww6DmWTHzdoZd2rvBE_3YlOY&usqp=CAU';
 
-  // const [terrainInfo, setTerrainInfo] = useState({});
-  // const terrainInfo = {
-  //   id: 8,
-  //   title: 'Terreno paty',
-  //   description:
-  //     'una descrip´pcion bien larga, porque es un terreno de la paty y asi se debe ver bien, no se que mas poner porque soy largo',
-  //   surface: 8 * 10,
-  //   owner: 'paty@maldonado.cl',
-  //   address: 'calle paty',
-  //   price: 8 * 1000,
-  //   electricity_service: true,
-  //   water_service: true,
-  //   images: [
-  //     'https://www.bienesonline.com/chile/photos/dscf103811331219071.jpg',
-  //     'http://imgclasificados5.emol.com/Proyectos/imagenes/docs_corredores/archivos/1101/981647/7f8c4f4f0230abf4910f13669ec3bfd8.jpg',
-  //   ],
-  //   latitude: -33.335845,
-  //   longitude: -70.503277,
-  //   services: 'acceso a agua potable y luz',
-  // };
-
-  // axios.get(`${backendImages}/`);
-
   let loaded = true;
   const terrainInfo = terrain;
 
+  const [messages, setMessages] = useState([]);
+
   const [visible, setVisible] = useState(false);
+
+  const updateMessages = async () => {
+    const backUrl = `https://desarrollosoftware.tk/users/${terrainInfo.owner_id}/messages/`;
+    axios
+      .get(backUrl, {headers: {Authorization: `Bearer ${state.userToken}`}})
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        alert(error);
+      });
+  };
 
   return loaded ? (
     <View style={{flex: 1}}>
@@ -97,7 +91,7 @@ const TerrainScreen = ({route, navigation}) => {
           style={{
             flex: 1,
             flexDirection: 'row',
-            paddingVertical: RFPercentage(2),
+            paddingVertical: RFPercentage(1),
             alignItems: 'center',
           }}>
           <Icon
@@ -120,7 +114,7 @@ const TerrainScreen = ({route, navigation}) => {
           style={{
             flex: 1,
             flexDirection: 'row',
-            paddingVertical: RFPercentage(2),
+            paddingVertical: RFPercentage(1),
             alignItems: 'center',
           }}>
           <Icon
@@ -131,19 +125,38 @@ const TerrainScreen = ({route, navigation}) => {
           />
           <Button
             title="Enviar Mensaje"
-            onPress={() =>
-              navigation.navigate('MessageStackScreens', {
-                screen: 'MessageScreen',
-                params: {name: 'Nombre', from: 'terrain', id},
-              })
-            }
+            onPress={() => {
+              const backUrl = `https://desarrollosoftware.tk/users/${terrainInfo.owner_id}/messages/`;
+              axios
+                .get(backUrl, {
+                  headers: {Authorization: `Bearer ${state.userToken}`},
+                })
+                .then(response => {
+                  return response.data;
+                })
+                .then(messagesResp => {
+                  console.log(messagesResp);
+                  navigation.navigate('MessageStackScreens', {
+                    screen: 'MessageScreen',
+                    params: {
+                      name: terrainInfo.owner,
+                      owner_id: terrainInfo.owner_id,
+                      initialMessages: messagesResp,
+                      change: true,
+                    },
+                  });
+                })
+                .catch(error => {
+                  alert(error);
+                });
+            }}
           />
         </View>
         <View
           style={{
             flex: 1,
             flexDirection: 'row',
-            paddingVertical: RFPercentage(2),
+            paddingVertical: RFPercentage(1),
             alignItems: 'center',
           }}>
           <Icon
@@ -155,9 +168,38 @@ const TerrainScreen = ({route, navigation}) => {
           <Button
             title="Agendar Visita"
             onPress={() =>
-              navigation.navigate('MessageStackScreens', {
-                screen: 'MessageScreen',
-                params: {name: 'Nombre', from: 'terrain', id},
+              updateMessages.then(messagesResp =>
+                navigation.navigate('MessageStackScreens', {
+                  screen: 'MessageScreen',
+                  params: {
+                    name: terrainInfo.owner,
+                    id,
+                    initialMessages: messages,
+                  },
+                }),
+              )
+            }
+          />
+        </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            paddingVertical: RFPercentage(1),
+            alignItems: 'center',
+          }}>
+          <Icon
+            name="warning"
+            color={'black'}
+            size={26}
+            style={{marginRight: RFPercentage(2)}}
+          />
+          <Button
+            title="Reportar"
+            onPress={() =>
+              navigation.navigate('ReportScreen', {
+                owner_id: terrainInfo.owner_id,
+                name: terrainInfo.owner,
               })
             }
           />

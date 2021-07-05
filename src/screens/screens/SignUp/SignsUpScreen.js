@@ -24,9 +24,11 @@ const SignUpScreen = ({navigation}) => {
   });
   const onSignUp = () => {
     console.log(userData);
-    const regex_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regex_email =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const regex_rut = /\b(\d{1,3}(\d{1,3}){2}-[\dkK])\b/;
-    const regex_date = /^\s*((?:19|20)\d{2})\-(1[012]|0?[1-9])\-(3[01]|[12][0-9]|0?[1-9])\s*$/;
+    const regex_date =
+      /^\s*((?:19|20)\d{2})\-(1[012]|0?[1-9])\-(3[01]|[12][0-9]|0?[1-9])\s*$/;
     if (userData.first_name.length === 0) {
       Alert.alert('Error', 'Ingresa un nombre válido');
     } else if (userData.last_name.length === 0) {
@@ -50,7 +52,7 @@ const SignUpScreen = ({navigation}) => {
       Alert.alert('Error', 'Ingresa una fecha válida');
     } else {
       axios
-        .post('http://desarrollosoftware.tk/signup', {
+        .post('https://desarrollosoftware.tk/signup', {
           email: userData.email,
           password: userData.password,
           first_name: userData.first_name,
@@ -61,18 +63,18 @@ const SignUpScreen = ({navigation}) => {
         })
         .then(function () {
           axios
-            .post('http://desarrollosoftware.tk/login', {
+            .post('https://desarrollosoftware.tk/login', {
               email: userData.email,
               password: userData.password,
             })
             .then(function (response) {
               store.dispatch(login(userData, response.data.token));
-              navigation.navigate('HomePageScreen');
+              navigation.navigate('BottomTab');
             })
             .catch(function (error) {
               console.log(error.message);
             });
-          navigation.navigate('HomePageScreen');
+          navigation.navigate('BottomTab');
         })
         .catch(function (error) {
           console.log('Error: ', error.message);

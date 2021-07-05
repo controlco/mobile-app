@@ -25,7 +25,7 @@ const HomePageScreen = ({navigation}) => {
   useEffect(() => {
     if (comune > -1) {
       axios
-        .get(`http://desarrollosoftware.tk/districts/${comune}/properties`)
+        .get(`https://desarrollosoftware.tk/districts/${comune}/properties`)
         .then(response => setProperties(response.data))
         .catch(error => alert(error));
     }
@@ -63,13 +63,19 @@ const HomePageScreen = ({navigation}) => {
             />
           </View>
           <View>
-            {properties.map(terrain => {
-              return (
-                <View key={key++} style={{flex: 1}}>
-                  <TerrainCard terrain={terrain} />
-                </View>
-              );
-            })}
+            {properties.length ? (
+              properties.map(terrain => {
+                return (
+                  <View key={key++} style={{flex: 1}}>
+                    <TerrainCard terrain={terrain} />
+                  </View>
+                );
+              })
+            ) : (
+              <Text style={{alignSelf: 'center', alignContent: 'center'}}>
+                No properties
+              </Text>
+            )}
           </View>
         </ScrollView>
       ) : (
