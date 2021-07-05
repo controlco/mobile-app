@@ -91,7 +91,7 @@ const TerrainScreen = ({route, navigation}) => {
           style={{
             flex: 1,
             flexDirection: 'row',
-            paddingVertical: RFPercentage(2),
+            paddingVertical: RFPercentage(1),
             alignItems: 'center',
           }}>
           <Icon
@@ -114,7 +114,7 @@ const TerrainScreen = ({route, navigation}) => {
           style={{
             flex: 1,
             flexDirection: 'row',
-            paddingVertical: RFPercentage(2),
+            paddingVertical: RFPercentage(1),
             alignItems: 'center',
           }}>
           <Icon
@@ -156,7 +156,7 @@ const TerrainScreen = ({route, navigation}) => {
           style={{
             flex: 1,
             flexDirection: 'row',
-            paddingVertical: RFPercentage(2),
+            paddingVertical: RFPercentage(1),
             alignItems: 'center',
           }}>
           <Icon
@@ -178,6 +178,29 @@ const TerrainScreen = ({route, navigation}) => {
                   },
                 }),
               )
+            }
+          />
+        </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            paddingVertical: RFPercentage(1),
+            alignItems: 'center',
+          }}>
+          <Icon
+            name="warning"
+            color={'black'}
+            size={26}
+            style={{marginRight: RFPercentage(2)}}
+          />
+          <Button
+            title="Reportar"
+            onPress={() =>
+              navigation.navigate('ReportScreen', {
+                owner_id: terrainInfo.owner_id,
+                name: terrainInfo.owner,
+              })
             }
           />
         </View>

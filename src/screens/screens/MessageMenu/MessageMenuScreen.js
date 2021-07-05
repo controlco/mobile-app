@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  TextInput,
-  StyleSheet,
-  View,
-  FlatList,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, FlatList, Text, TouchableOpacity} from 'react-native';
 import {store} from '../../../../redux/store';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
