@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
       Alert.alert('Error', 'Ingresa la contraseña');
     } else {
       axios
-        .post('http://desarrollosoftware.tk/login', {
+        .post('https://desarrollosoftware.tk/login', {
           email: userData.email,
           password: userData.password,
         })
@@ -29,7 +29,7 @@ const LoginScreen = ({navigation}) => {
           navigation.navigate('BottomTab');
         })
         .catch(function (error) {
-          console.log(error.message);
+          Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
         });
     }
   };

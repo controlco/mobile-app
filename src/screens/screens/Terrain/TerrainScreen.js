@@ -156,8 +156,8 @@ const TerrainScreen = ({route, navigation}) => {
             title="Agendar Visita"
             onPress={() =>
               navigation.navigate('MessageStackScreens', {
-                screen: 'MessageScreen',
-                params: {name: 'Nombre', from: 'terrain', id},
+                screen: 'CalendarScreen',
+                params: {id},
               })
             }
           />

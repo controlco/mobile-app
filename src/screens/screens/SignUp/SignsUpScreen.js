@@ -23,10 +23,11 @@ const SignUpScreen = ({navigation}) => {
     birth_date: '',
   });
   const onSignUp = () => {
-    console.log(userData);
-    const regex_email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const regex_email =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const regex_rut = /\b(\d{1,3}(\d{1,3}){2}-[\dkK])\b/;
-    const regex_date = /^\s*((?:19|20)\d{2})\-(1[012]|0?[1-9])\-(3[01]|[12][0-9]|0?[1-9])\s*$/;
+    const regex_date =
+      /^\s*((?:19|20)\d{2})\-(1[012]|0?[1-9])\-(3[01]|[12][0-9]|0?[1-9])\s*$/;
     if (userData.first_name.length === 0) {
       Alert.alert('Error', 'Ingresa un nombre válido');
     } else if (userData.last_name.length === 0) {
@@ -70,12 +71,12 @@ const SignUpScreen = ({navigation}) => {
               navigation.navigate('HomePageScreen');
             })
             .catch(function (error) {
-              console.log(error.message);
+              Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
             });
           navigation.navigate('HomePageScreen');
         })
         .catch(function (error) {
-          console.log('Error: ', error.message);
+          Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
         });
     }
   };

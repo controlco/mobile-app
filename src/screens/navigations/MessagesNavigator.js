@@ -3,6 +3,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MessageMenuScreen from '../screens/MessageMenu/MessageMenuScreen';
 import MessageScreen from '../screens/Message/MessageScreen';
 import {HeaderBackButton} from '@react-navigation/stack';
+import CalendarScreen from '../screens/Calendar/CalendarScreen';
 
 const MessagesStack = createStackNavigator();
 
@@ -27,6 +28,11 @@ const MessageStackScreens = () => (
           />
         ),
       })}
+    />
+    <MessagesStack.Screen
+      name="CalendarScreen"
+      component={CalendarScreen}
+      options={{headerShown: false}}
     />
   </MessagesStack.Navigator>
 );
