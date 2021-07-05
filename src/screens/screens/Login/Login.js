@@ -20,7 +20,7 @@ const LoginScreen = ({navigation}) => {
       Alert.alert('Error', 'Ingresa la contraseña');
     } else {
       axios
-        .post('http://desarrollosoftware.tk/login', {
+        .post('https://desarrollosoftware.tk/login', {
           email: userData.email,
           password: userData.password,
         })

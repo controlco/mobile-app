@@ -5,7 +5,7 @@ import {Card} from 'react-native-elements';
 import ImageView from 'react-native-image-viewing';
 
 const TerrainCard = params => {
-  const backendImages = 'http://desarrollosoftware.tk';
+  const backendImages = 'https://desarrollosoftware.tk';
   const terrain = params.terrain;
   console.log(terrain);
   const [visible, setVisible] = useState(false);

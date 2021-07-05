@@ -2,13 +2,13 @@ import axios from 'axios';
 
 export async function getComunesAndRegions() {
   const regions = await axios
-    .get('http://desarrollosoftware.tk/regions/')
+    .get('https://desarrollosoftware.tk/regions/')
     .then(response => response.data)
     .catch(error => {
       console.log(error);
     });
   const districts = await axios
-    .get('http://desarrollosoftware.tk/districts/')
+    .get('https://desarrollosoftware.tk/districts/')
     .then(response => response.data)
     .catch(error => {
       console.log(error);
