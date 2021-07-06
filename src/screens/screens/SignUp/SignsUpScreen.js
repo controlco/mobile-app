@@ -51,7 +51,7 @@ const SignUpScreen = ({navigation}) => {
       Alert.alert('Error', 'Ingresa una fecha válida');
     } else {
       axios
-        .post('http://desarrollosoftware.tk/signup', {
+        .post('https://desarrollosoftware.tk/signup', {
           email: userData.email,
           password: userData.password,
           first_name: userData.first_name,
@@ -62,18 +62,18 @@ const SignUpScreen = ({navigation}) => {
         })
         .then(function () {
           axios
-            .post('http://desarrollosoftware.tk/login', {
+            .post('https://desarrollosoftware.tk/login', {
               email: userData.email,
               password: userData.password,
             })
             .then(function (response) {
               store.dispatch(login(userData, response.data.token));
-              navigation.navigate('HomePageScreen');
+              navigation.navigate('BottomTab');
             })
             .catch(function (error) {
               Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
             });
-          navigation.navigate('HomePageScreen');
+          navigation.navigate('BottomTab');
         })
         .catch(function (error) {
           Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
