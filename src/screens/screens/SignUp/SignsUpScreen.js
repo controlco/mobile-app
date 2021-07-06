@@ -23,7 +23,6 @@ const SignUpScreen = ({navigation}) => {
     birth_date: '',
   });
   const onSignUp = () => {
-    console.log(userData);
     const regex_email =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const regex_rut = /\b(\d{1,3}(\d{1,3}){2}-[\dkK])\b/;
@@ -72,12 +71,12 @@ const SignUpScreen = ({navigation}) => {
               navigation.navigate('BottomTab');
             })
             .catch(function (error) {
-              console.log(error.message);
+              Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
             });
           navigation.navigate('BottomTab');
         })
         .catch(function (error) {
-          console.log('Error: ', error.message);
+          Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
         });
     }
   };

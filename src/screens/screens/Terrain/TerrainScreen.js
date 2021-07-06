@@ -168,17 +168,10 @@ const TerrainScreen = ({route, navigation}) => {
           <Button
             title="Agendar Visita"
             onPress={() =>
-              updateMessages.then(messagesResp =>
-                navigation.navigate('MessageStackScreens', {
-                  screen: 'MessageScreen',
-                  params: {
-                    name: terrainInfo.owner,
-                    id,
-                    initialMessages: messages,
-                  },
-                }),
-              )
-            }
+              navigation.navigate('MessageStackScreens', {
+                screen: 'CalendarScreen',
+                params: {id},
+              }
           />
         </View>
         <View

@@ -29,7 +29,7 @@ const LoginScreen = ({navigation}) => {
           navigation.navigate('BottomTab');
         })
         .catch(function (error) {
-          console.log(error.message);
+          Alert.alert('Error', 'Ha ocurrido un error, intenta nuevamente.');
         });
     }
   };
