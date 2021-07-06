@@ -171,7 +171,8 @@ const TerrainScreen = ({route, navigation}) => {
               navigation.navigate('MessageStackScreens', {
                 screen: 'CalendarScreen',
                 params: {id},
-              }
+              })
+            }
           />
         </View>
         <View
